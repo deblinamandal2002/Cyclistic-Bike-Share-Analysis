@@ -1,449 +1,140 @@
-# 🚲 Cyclistic Bike-Share Analysis
+# Cyclistic Bike-Share Case Study
 
-## 📊 Google Data Analytics Capstone Project
+## Business Scenario
 
-A data analytics case study analyzing **Cyclistic**, a fictional bike-share company in Chicago, to understand how **casual riders and annual members use Cyclistic bikes differently**.
+Cyclistic is a bike-share company in Chicago that offers both **casual rides** and **annual memberships**. While casual riders generate significant usage, annual members provide a more consistent customer base and are strategically important for long-term growth.
 
-The goal of this project is to identify behavioral patterns and provide **data-driven marketing recommendations** that can help Cyclistic convert more casual riders into annual members.
+The marketing team wants to understand **how casual riders and annual members use Cyclistic bikes differently** and identify opportunities to convert more casual riders into annual members.
 
----
+## Introduction
 
-## 🎯 Business Problem
+This case study analyzes Cyclistic's **2021 historical trip data** to identify differences in riding behavior between casual riders and annual members.
 
-Cyclistic has two major customer segments:
+The analysis follows the **Google Data Analytics framework — Prepare, Process, Analyze, Share, and Act** — using **SQL, R, and Tableau** to clean, analyze, visualize, and communicate the findings.
 
-* **Annual members**
-* **Casual riders**
+**Primary business question:**
 
-Although annual memberships are an important part of Cyclistic's business model, casual riders represent a potential opportunity for membership growth.
-
-The key business question is:
-
-> **How do annual members and casual riders use Cyclistic bikes differently, and how can Cyclistic convert more casual riders into annual members?**
+> How do annual members and casual riders use Cyclistic bikes differently, and how can these differences be used to increase annual memberships?
 
 ---
 
-## 🧠 Business Objective
+## 1. Prepare
 
-The analysis focuses on answering the following questions:
+The analysis uses Cyclistic's publicly available **Divvy Trip Data**, consisting of monthly trip records from 2021.
 
-1. How does bike usage differ between casual riders and annual members?
-2. Which days of the week have the highest usage?
-3. How does ride duration differ between the two customer groups?
-4. Which bike types are preferred by each group?
-5. Which months or seasons generate the highest number of rides?
-6. What behavioral patterns can help Cyclistic target casual riders?
-7. What marketing strategies could increase annual memberships?
+The dataset contains information such as:
 
----
+- Ride ID and bike type
+- Start and end timestamps
+- Start and end stations
+- Geographic coordinates
+- Rider type — casual or member
 
-## 🗂️ Dataset
+The 12 monthly datasets were combined to create a single dataset for analysis.
 
-The analysis uses historical Cyclistic bike-share trip data.
-
-Each trip contains information such as:
-
-| Column               | Description                     |
-| -------------------- | ------------------------------- |
-| `ride_id`            | Unique identifier for each ride |
-| `rideable_type`      | Type of bike used               |
-| `started_at`         | Ride start timestamp            |
-| `ended_at`           | Ride end timestamp              |
-| `start_station_name` | Starting station                |
-| `start_station_id`   | Starting station ID             |
-| `end_station_name`   | Ending station                  |
-| `end_station_id`     | Ending station ID               |
-| `start_lat`          | Starting latitude               |
-| `start_lng`          | Starting longitude              |
-| `end_lat`            | Ending latitude                 |
-| `end_lng`            | Ending longitude                |
-| `member_casual`      | Customer type                   |
-
-### Customer Types
-
-* `member` → Annual Cyclistic member
-* `casual` → Casual rider
+**Data Source:** [Divvy Trip Data](https://divvy-tripdata.s3.amazonaws.com/index.html)
 
 ---
 
-## 🛠️ Tools & Technologies
+## 2. Process
 
-### Data Analysis
+The raw data was examined and prepared for analysis by:
 
-* **SQL**
-* Data Cleaning
-* Data Transformation
-* Exploratory Data Analysis
-* Statistical/Descriptive Analysis
+- Combining the monthly datasets
+- Checking for duplicate ride IDs
+- Identifying missing and inconsistent values
+- Validating ride durations
+- Cleaning station names and categorical fields
+- Handling missing station information
+- Standardizing bike-type values
+- Creating derived variables such as:
+  - Ride duration
+  - Month
+  - Day of week
+  - Hour of day
 
-### Visualization
-
-* **Tableau**
-
-### Documentation & Version Control
-
-* **Git**
-* **GitHub**
-* Markdown
-
----
-
-## 🔄 Data Analytics Process
-
-The project follows a structured analytics workflow:
-
-```text
-Business Understanding
-        ↓
-Data Collection
-        ↓
-Data Cleaning
-        ↓
-Data Transformation
-        ↓
-Exploratory Data Analysis
-        ↓
-SQL Analysis
-        ↓
-Data Visualization
-        ↓
-Insights
-        ↓
-Business Recommendations
-```
+SQL was primarily used for **data cleaning, transformation, validation, and preparation for analysis**.
 
 ---
 
-# 🧹 Data Cleaning & Preparation
+## 3. Analyze
 
-Before performing the analysis, the dataset was cleaned and transformed.
+The cleaned dataset was analyzed to compare **casual riders vs. annual members** across several dimensions:
 
-### Key Cleaning Steps
+- Total number of rides
+- Monthly riding patterns
+- Day-of-week usage
+- Hourly riding patterns
+- Average ride duration
+- Bike-type preference
+- Most frequently used starting stations
+- Most frequently used ending stations
+- Ending bike-lock locations
 
-* Removed duplicate records.
-* Checked for missing values.
-* Validated ride start and end timestamps.
-* Calculated ride duration.
-* Identified invalid or negative ride durations.
-* Extracted date-related features.
-* Created day-of-week variables.
-* Created month and season variables.
-* Segmented rides by customer type.
-* Checked categorical values for consistency.
-
-### Derived Variables
-
-The following variables were created for analysis:
-
-```text
-ride_length
-day_of_week
-month
-year
-season
-```
-
-### Ride Duration
-
-Ride duration was calculated using:
-
-```sql
-TIMESTAMPDIFF(MINUTE, started_at, ended_at)
-```
+The analysis focused on identifying behavioral patterns that could help Cyclistic understand **when, where, and how differently the two customer groups use the service**.
 
 ---
 
-# 🔎 Exploratory Data Analysis
+## 4. Share
 
-The analysis compares **casual riders vs annual members** across several dimensions.
+The findings were presented through an interactive **Tableau dashboard**, allowing the differences between casual riders and annual members to be explored visually.
 
-### 1. Number of Rides
+### Dashboard
 
-Compare the total number of rides taken by:
+The dashboard highlights:
 
-* Casual riders
-* Annual members
+- Casual vs. member trip volume
+- Bike-type preferences
+- Trip frequency by time
+- Popular starting and ending stations
+- Ending electric-bike lock locations
+- Differences in riding behavior throughout the year
 
-### 2. Average Ride Duration
-
-Analyze whether casual riders or members tend to have longer rides.
-
-### 3. Weekly Usage
-
-Compare riding behavior across:
-
-* Monday
-* Tuesday
-* Wednesday
-* Thursday
-* Friday
-* Saturday
-* Sunday
-
-### 4. Monthly Trends
-
-Analyze ride volume across different months to identify:
-
-* Peak riding periods
-* Seasonal patterns
-* Low-demand periods
-
-### 5. Bike Type Preference
-
-Compare usage of:
-
-* Classic bikes
-* Electric bikes
-* Other available bike types
-
-### 6. Station Analysis
-
-Identify frequently used:
-
-* Start stations
-* End stations
-
-This can help understand where casual riders are concentrated.
+The visualizations are designed to translate the SQL/R analysis into **business-friendly insights** that can support marketing decisions.
 
 ---
 
-# 💻 SQL Analysis
+## 5. Act
 
-Example analysis query:
+Based on the observed differences in riding behavior, Cyclistic can develop targeted strategies to encourage casual riders to become annual members.
 
-```sql
-SELECT
-    member_casual,
-    COUNT(*) AS total_rides,
-    AVG(ride_length) AS avg_ride_duration
-FROM cyclistic_trips
-GROUP BY member_casual;
-```
+Potential strategies include:
 
-### Weekly Usage Analysis
+- **Targeted membership campaigns** during periods when casual usage is highest
+- Promoting membership benefits to frequent casual riders
+- Using popular stations as locations for membership-focused marketing
+- Designing campaigns around the riding patterns and preferences of casual customers
+- Using behavioral data to personalize membership offers rather than applying the same campaign to all riders
 
-```sql
-SELECT
-    member_casual,
-    day_of_week,
-    COUNT(*) AS total_rides
-FROM cyclistic_trips
-GROUP BY
-    member_casual,
-    day_of_week
-ORDER BY
-    member_casual,
-    total_rides DESC;
-```
-
-### Monthly Usage Analysis
-
-```sql
-SELECT
-    member_casual,
-    month,
-    COUNT(*) AS total_rides
-FROM cyclistic_trips
-GROUP BY
-    member_casual,
-    month
-ORDER BY
-    month;
-```
-
-> The complete SQL analysis is available in the `/sql` directory.
+The key idea is to **convert high-value casual riding behavior into long-term membership relationships**.
 
 ---
 
-# 📊 Tableau Dashboard
+## Solution
 
-The Tableau dashboard visualizes the major behavioral differences between casual riders and annual members.
+The analysis provides Cyclistic with a data-driven understanding of the differences between casual riders and annual members.
 
-### Dashboard Components
+By combining **SQL for data preparation and analysis, R for analytical support, and Tableau for visualization**, the project transforms raw trip records into actionable customer insights.
 
-The dashboard includes:
-
-* Total Rides
-* Average Ride Duration
-* Rides by Customer Type
-* Rides by Day of Week
-* Monthly Ride Trends
-* Bike Type Usage
-* Top Start Stations
-* Top End Stations
-
-### Suggested Dashboard Structure
-
-```text
----------------------------------------------------
-|             CYCLISTIC BIKE-SHARE               |
-|              CUSTOMER ANALYSIS                  |
----------------------------------------------------
-| Total Rides | Members | Casual | Avg Duration  |
----------------------------------------------------
-|                                               |
-| Monthly Ride Trend       | Rides by Day       |
-|                                               |
----------------------------------------------------
-| Bike Type Usage          | Customer Segment   |
-|                                               |
----------------------------------------------------
-|              Station Analysis                 |
----------------------------------------------------
-```
+The results can help the marketing team design more targeted campaigns focused on **converting casual riders into annual members**.
 
 ---
 
-# 📈 Key Insights
+## Conclusion
 
-The analysis focuses on identifying meaningful behavioral differences between the two customer segments.
+The Cyclistic case study demonstrates an end-to-end data analytics workflow:
 
-### Casual Riders
+**Prepare → Process → Analyze → Share → Act**
 
-Casual riders generally demonstrate more **leisure-oriented riding behavior**, with usage patterns that can differ from members in terms of:
+Rather than simply reporting the number of rides, the analysis focuses on **customer behavior and its business implications**. The resulting insights provide a foundation for Cyclistic to make more informed membership-growth and marketing decisions.
 
-* Ride duration
-* Weekend activity
-* Seasonal usage
-* Bike preferences
-* Station usage
+### Tools Used
 
-### Annual Members
+- **SQL** — Data cleaning, transformation, validation, and analysis
+- **R** — Data analysis and exploration
+- **Tableau** — Data visualization and dashboarding
+- **CSV** — Raw and processed datasets
 
-Annual members tend to demonstrate more **consistent and routine usage**, which can indicate commuting or regular transportation behavior.
+### Data Source
 
-> **Important:** Replace these general observations with the exact findings calculated from your dataset before publishing the project.
-
----
-
-# 💡 Business Recommendations
-
-Based on the behavioral analysis, Cyclistic could consider the following strategies:
-
-### 1. Weekend Membership Campaigns
-
-Target casual riders during weekends when leisure riding activity is high.
-
-### 2. Membership Conversion Offers
-
-Introduce limited-time membership incentives for frequent casual riders.
-
-### 3. Targeted Digital Marketing
-
-Use ride frequency and behavioral patterns to identify high-potential casual riders.
-
-### 4. Seasonal Campaigns
-
-Increase marketing activity during periods with high casual-rider demand.
-
-### 5. Station-Based Promotions
-
-Target casual riders around high-volume stations with membership promotions.
-
-### 6. Ride-to-Membership Messaging
-
-Highlight the potential cost and convenience benefits of annual membership for frequent riders.
-
----
-
-# 📁 Project Structure
-
-```text
-cyclistic-bike-share-analysis/
-│
-├── README.md
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── sql/
-│   ├── data_cleaning.sql
-│   ├── exploratory_analysis.sql
-│   └── business_analysis.sql
-│
-├── tableau/
-│   ├── cyclistic_dashboard.twb
-│   └── dashboard_screenshot.png
-│
-├── reports/
-│   ├── analysis.md
-│   └── insights.md
-│
-└── images/
-    ├── dashboard.png
-    ├── monthly_trend.png
-    └── customer_comparison.png
-```
-
----
-
-# 📊 Key Performance Indicators
-
-The primary KPIs analyzed in this project include:
-
-| KPI                   | Purpose                          |
-| --------------------- | -------------------------------- |
-| Total Rides           | Measures overall usage           |
-| Member Rides          | Measures annual-member activity  |
-| Casual Rides          | Measures casual-rider activity   |
-| Average Ride Duration | Compares riding behavior         |
-| Weekend Rides         | Measures leisure usage           |
-| Weekday Rides         | Measures routine/commuting usage |
-| Monthly Rides         | Identifies seasonal trends       |
-| Bike Type Usage       | Identifies bike preferences      |
-
----
-
-# 🎯 Final Business Question
-
-The central objective of this project is not simply to determine **who rides more**.
-
-The analysis aims to understand:
-
-> **What behavioral differences exist between casual riders and annual members, and how can Cyclistic use these differences to design more effective membership-conversion strategies?**
-
----
-
-# 🚀 Skills Demonstrated
-
-This project demonstrates practical skills in:
-
-* SQL
-* Data Cleaning
-* Data Transformation
-* Exploratory Data Analysis
-* Business Analysis
-* Data Visualization
-* Tableau
-* KPI Development
-* Customer Segmentation
-* Data Storytelling
-* Business Recommendations
-* Git & GitHub
-
----
-
-# 👩‍💻 Author
-
-**Deblina Mandal**
-
-Computer Science Graduate | Aspiring Data Analyst
-
-### Skills
-
-`SQL` `Excel` `Tableau` `Power BI` `Python` `Data Analytics`
-
----
-
-# ⭐ Project Takeaway
-
-This project demonstrates how raw bike-share transaction data can be transformed into **actionable business insights**.
-
-By comparing casual riders and annual members, the analysis provides a data-driven foundation for Cyclistic's **customer segmentation and membership-conversion strategy**.
-
----
-
-## 📌 Disclaimer
-
-Cyclistic is a fictional company used in the **Google Data Analytics Professional Certificate Capstone Case Study**. The analysis is intended for educational and portfolio purposes.
+[Divvy Trip Data](https://divvy-tripdata.s3.amazonaws.com/index.html)
